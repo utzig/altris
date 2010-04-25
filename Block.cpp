@@ -1,3 +1,5 @@
+// vim:ts=4
+
 #include <Gosu/Gosu.hpp>
 
 #include <boost/scoped_ptr.hpp>
@@ -24,10 +26,11 @@ Block::Block(Gosu::Graphics& g, int x, int y, int w, int h)
 	_YellowImage.reset(new Gosu::Image(g, filename));
 }
 
-void Block::Draw(int xpos, int ypos, Color color, ZOrder z)
+void Block::DrawAbs(int xabs, int yabs, Color color, ZOrder z)
 {
-	int x = _x + (xpos * 30);
-	int y = _y + (ypos * 30);
+	int x = _x + xabs;
+	int y = _y + yabs;
+
 	switch (color) {
 		case cBlue:
 			_BlueImage->draw(x, y, z);
@@ -45,4 +48,9 @@ void Block::Draw(int xpos, int ypos, Color color, ZOrder z)
 			_YellowImage->draw(x, y, z);
 			break;
 	}
+}
+
+void Block::DrawRel(int xrel, int yrel, Color color, ZOrder z)
+{
+	DrawAbs(xrel * _w, yrel * _h, color, z);
 }

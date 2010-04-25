@@ -8,7 +8,7 @@
 
 class Tetramino {
 private:
-	int _posx, _posy;
+	int _absx, _absy;
 	int _w, _h;
 	Color _data[4][4];
 	Block& _block;
@@ -19,6 +19,7 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void MoveDown();
+	void Rotate();
 };
 
 #endif

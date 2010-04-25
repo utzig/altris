@@ -12,11 +12,11 @@
 #include "GameWindow.h"
 
 GameWindow::GameWindow()
-	: Window(510, 510, false, 250), 
+	: Window(510, 510, false), 
 		_font(graphics(), Gosu::defaultFontName(), 20),
 		_block(graphics(), 30, 30, 30, 30),
 		_board(_block, 10, 15),
-		_tetramino(_block, 0, 0, sS, cBlue)
+		_tetramino(_block, 0, 0, sL, cBlue)
 {
 	setCaption(L"AlTris");
 
@@ -44,7 +44,12 @@ void GameWindow::update()
 		isRight = false;
 	}
 
-	//if (input().down(Gosu::kbUp))
+	if (input().down(Gosu::kbUp)) {
+		if (!isUp) _tetramino.Rotate();
+		isUp = true;
+	} else {
+		isUp = false;
+	}
 
 	_tetramino.MoveDown();
 }

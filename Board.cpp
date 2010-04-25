@@ -32,7 +32,7 @@ void Board::Draw()
 
 	for (it = _lines.begin(), i = 0; it != _lines.end(); ++it, ++i) {
 		for (lit = it->begin(), j = 0; lit != it->end(); ++lit, ++j) {
-			_block.Draw(j, i, *lit, zBoard);
+			_block.DrawRel(j, i, *lit, zBoard);
 		}
 	}
 }

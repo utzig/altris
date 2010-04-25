@@ -22,7 +22,10 @@ private:
 
 public:
 	Block(Gosu::Graphics& g, int x, int y, int w, int h);
-	void Draw(int x, int y, Color color, ZOrder z);
+	int GetWidth() const { return _w; }
+	int GetHeight() const { return _h; }
+	void DrawAbs(int xabs, int yabs, Color color, ZOrder z);
+	void DrawRel(int xrel, int yrel, Color color, ZOrder z);
 };
 
 #endif
