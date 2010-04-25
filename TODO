@@ -1,4 +1,4 @@
-+ Fix collision detect (left/right)
++ Fix collision detection for rotation
 + Added hiscore
 + Show next tetramino
 + Add sound support
