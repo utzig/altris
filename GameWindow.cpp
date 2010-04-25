@@ -44,7 +44,7 @@ GameWindow::GameWindow()
 	int h = _nextTetramino->GetHeight();
 
 	// center next piece on preview pane
-	_nextTetramino->SetOffsetXY(420 - w*30/2, 75 - h*30/2);
+	_nextTetramino->SetOffsetXY(420 - w*30/2, 90 - h*30/2);
 }
 
 void GameWindow::update()
@@ -100,7 +100,7 @@ void GameWindow::update()
 			int h = _nextTetramino->GetHeight();
 
 			// center next piece on preview pane
-			_nextTetramino->SetOffsetXY(420 - w*30/2, 75 - h*30/2);
+			_nextTetramino->SetOffsetXY(420 - w*30/2, 90 - h*30/2);
 
 	} else {
 		_tetramino->MoveDown();
