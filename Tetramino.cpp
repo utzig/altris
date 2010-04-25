@@ -6,6 +6,7 @@
 
 #include "Config.h"
 #include "Tetramino.h"
+#include "Board.h"
 
 Tetramino::Tetramino(Block& block, int x, int y, Shape shape, Color color)
 	: _block(block), _absx(x), _absy(y)
@@ -209,3 +210,36 @@ void Tetramino::Rotate()
 	_w = w;
 	_h = h;
 }
+
+bool Tetramino::CheckCollisionWithBoard(Board& board)
+{
+	int posx = 0, posy = 0;
+	int x, y;
+
+	// not arrived at block boundary yet
+	if (_absy % 30) return false;
+
+	// initial cell position of the tetramino
+	posx = _absx / 30;
+	posy = _absy / 30;
+
+	for (x = posx; x < (posx + _w); ++x) {
+		for (y = (posy + _h); y >= posy; --y) {
+			if (_data[x - posx][y - posy] == cInvisible) continue;
+			else {
+				if ((y == 15) || (board.GetCellColor(x, y+1) != cInvisible))
+					return true;
+				else
+					break;
+			}
+		}
+	}
+
+	return false;
+}
+
+Color Tetramino::GetCellColor(int posx, int posy) const
+{
+	return _data[posx][posy];
+}
+

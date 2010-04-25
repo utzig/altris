@@ -15,13 +15,26 @@ GameWindow::GameWindow()
 	: Window(510, 510, false), 
 		_font(graphics(), Gosu::defaultFontName(), 20),
 		_block(graphics(), 30, 30, 30, 30),
-		_board(_block, 10, 15),
-		_tetramino(_block, 0, 0, sL, cBlue)
+		_board(_block, 10, 15)
 {
 	setCaption(L"AlTris");
+	time_t seconds = time(NULL);
+	std::srand(seconds);
 
 	std::wstring filename = Gosu::sharedResourcePrefix() + L"media/background.png";
 	_backgroundImage.reset(new Gosu::Image(graphics(), filename, false));
+
+	_tetramino = new Tetramino(_block,
+		0,
+		0,
+		static_cast<Shape>(Gosu::random(sI, sZ+1)),
+		static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
+
+	_nextTetramino = new Tetramino(_block,
+		0,
+		0,
+		static_cast<Shape>(Gosu::random(sI, sZ+1)),
+		static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
 }
 
 void GameWindow::update()
@@ -29,34 +42,51 @@ void GameWindow::update()
 	static bool isLeft = false;
 	static bool isRight = false;
 	static bool isUp = false;
+	static bool hasCollided = false;
 
 	if (input().down(Gosu::kbLeft)) {
-		if (!isLeft) _tetramino.MoveLeft();
+		if (!isLeft) _tetramino->MoveLeft();
 		isLeft = true;
 	} else {
 		isLeft = false;
 	}
 
 	if (input().down(Gosu::kbRight)) {
-		if (!isRight) _tetramino.MoveRight();
+		if (!isRight) _tetramino->MoveRight();
 		isRight = true;
 	} else {
 		isRight = false;
 	}
 
 	if (input().down(Gosu::kbUp)) {
-		if (!isUp) _tetramino.Rotate();
+		if (!isUp) _tetramino->Rotate();
 		isUp = true;
 	} else {
 		isUp = false;
 	}
 
-	_tetramino.MoveDown();
+	_tetramino->MoveDown();
+
+	if (_tetramino->CheckCollisionWithBoard(_board)) {
+		hasCollided = true;
+		printf("true\n");
+
+		_board.CopyFromTetramino(_tetramino);
+
+		delete _tetramino;
+		_tetramino = _nextTetramino;
+
+		_nextTetramino = new Tetramino(_block,
+			0,
+			0,
+			static_cast<Shape>(Gosu::random(sI, sZ+1)),
+			static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
+	}
 }
 
 void GameWindow::draw()
 {
-	_tetramino.Draw();
+	_tetramino->Draw();
 	_board.Draw();
 	_backgroundImage->draw(0, 0, zBackground);
 }

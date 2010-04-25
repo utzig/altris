@@ -4,6 +4,7 @@
 #include <Gosu/Gosu.hpp>
 
 #include "Config.h"
+#include "Board.h"
 #include "Block.h"
 
 class Tetramino {
@@ -20,6 +21,12 @@ public:
 	void MoveRight();
 	void MoveDown();
 	void Rotate();
+	int GetWidth() const { return _w; }
+	int GetHeight() const { return _h; }
+	int GetXPos() const { return _absx / 30; }
+	int GetYPos() const { return _absy / 30; }
+	bool CheckCollisionWithBoard(Board& board);
+	Color GetCellColor(int posx, int posy) const;
 };
 
 #endif

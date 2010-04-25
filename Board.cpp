@@ -9,6 +9,7 @@
 
 #include "Block.h"
 #include "Board.h"
+#include "Tetramino.h"
 
 Board::Board(Block& block, int w, int h)
 	: _block(block), _w(w), _h(h)
@@ -37,15 +38,45 @@ void Board::Draw()
 	}
 }
 
-#if 0
-bool Board::CheckColision(Tetramino& t)
+Color Board::GetCellColor(int posx, int posy) const
 {
+	std::list<line>::const_iterator it;
 
-	return false;
+	it = _lines.begin();
+	int i = 0;
+	while (it != _lines.end() && posy != i) {
+		++it;
+		++i;
+	}
+
+	return (*it)[posx];
 }
 
-void Board::AddTetramino(Tetramino& t)
+void Board::CopyFromTetramino(Tetramino* tetramino)
 {
+	int x = tetramino->GetXPos();
+	int y = tetramino->GetYPos();
+	int w = tetramino->GetWidth();
+	int h = tetramino->GetHeight();
 
+	int i, j;
+
+	std::list<line>::iterator it = _lines.begin();
+	i = 0;
+	while (it != _lines.end() && y != i) {
+		++it;
+		++i;
+	}
+
+	Color color;
+
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			color = tetramino->GetCellColor(i, j);
+			if (color != cInvisible) {
+				(*it)[x+i] = color;
+			}
+		}
+		++it;
+	}
 }
-#endif

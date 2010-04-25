@@ -11,12 +11,14 @@
 
 #include "Config.h"
 #include "Block.h"
-#include "Tetramino.h"
+//#include "Tetramino.h"
 
 const int BOARD_WIDTH  = 10;
 const int BOARD_HEIGHT = 15;
 
 typedef boost::array<Color, BOARD_WIDTH> line;
+
+class Tetramino;
 
 class Board
 {
@@ -28,8 +30,8 @@ private:
 public:
 	explicit Board(Block& block, int w, int h);
 	void Draw();
-	//bool CheckColision(Tetramino& t);
-	//void AddTetramino(Tetramino& t);
+	Color GetCellColor(int posx, int posy) const;
+	void CopyFromTetramino(Tetramino* tetramino);
 	int GetWidth() const { return BOARD_WIDTH; }
 	int GetHeight() const { return BOARD_HEIGHT; }
 };

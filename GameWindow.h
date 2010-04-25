@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "Block.h"
 #include "Board.h"
+#include "Tetramino.h"
 
 class GameWindow : public Gosu::Window
 {
@@ -21,7 +22,8 @@ private:
 	Gosu::Font _font;
 	Block _block;
 	Board _board;
-	Tetramino _tetramino;
+	Tetramino* _tetramino;
+	Tetramino* _nextTetramino;
 
 public:
 	GameWindow();
