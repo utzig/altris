@@ -12,7 +12,6 @@
 class Block
 {
 private:
-	int _x, _y;
 	int _w, _h;
 	boost::scoped_ptr<Gosu::Image> _BlueImage;
 	boost::scoped_ptr<Gosu::Image> _GreenImage;
@@ -21,11 +20,10 @@ private:
 	boost::scoped_ptr<Gosu::Image> _YellowImage;
 
 public:
-	Block(Gosu::Graphics& g, int x, int y, int w, int h);
+	Block(Gosu::Graphics& g, int w, int h);
 	int GetWidth() const { return _w; }
 	int GetHeight() const { return _h; }
-	void DrawAbs(int xabs, int yabs, Color color, ZOrder z);
-	void DrawRel(int xrel, int yrel, Color color, ZOrder z);
+	void Draw(int xabs, int yabs, Color color, ZOrder z);
 };
 
 #endif

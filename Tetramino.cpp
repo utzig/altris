@@ -8,8 +8,13 @@
 #include "Tetramino.h"
 #include "Board.h"
 
-Tetramino::Tetramino(Block& block, int x, int y, Shape shape, Color color)
-	: _block(block), _absx(x), _absy(y)
+Tetramino::Tetramino(Block& block, int offx, int offy, int x, int y, Shape shape, Color color)
+	: _block(block),
+		_offx(offx),
+		_offy(offy),
+		_absx(x),
+		_absy(y),
+		downPressed(false)
 {
 	switch (shape) {
 		case sI:
@@ -86,7 +91,10 @@ void Tetramino::Draw()
 
 	for (i = 0; i < _w; i++) {
 		for (j = 0; j < _h; j++) {
-			_block.DrawAbs(_absx + (i*w), _absy + (j*h), _data[i][j], zTetramino);
+			_block.Draw(_offx + _absx + (i*w),
+				_offy + _absy + (j*h),
+				_data[i][j],
+				zTetramino);
 		}
 	}
 }
@@ -103,7 +111,15 @@ void Tetramino::MoveRight()
 
 void Tetramino::MoveDown()
 {
-	++_absy;
+	if (downPressed) {
+		if (_absy % 30) {
+			_absy = ((_absy / 30) * 30) + _block.GetHeight();
+		} else {
+			_absy += _block.GetHeight();
+		}
+	} else {
+		++_absy;
+	}
 }
 
 void Tetramino::Rotate()

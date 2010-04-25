@@ -7,8 +7,8 @@
 #include "Config.h"
 #include "Block.h"
 
-Block::Block(Gosu::Graphics& g, int x, int y, int w, int h)
-	: _x(x), _y(y), _w(w), _h(h)
+Block::Block(Gosu::Graphics& g, int w, int h)
+	: _w(w), _h(h)
 {
 	std::wstring filename = Gosu::sharedResourcePrefix() + L"media/blue.png";
 	_BlueImage.reset(new Gosu::Image(g, filename));
@@ -26,10 +26,10 @@ Block::Block(Gosu::Graphics& g, int x, int y, int w, int h)
 	_YellowImage.reset(new Gosu::Image(g, filename));
 }
 
-void Block::DrawAbs(int xabs, int yabs, Color color, ZOrder z)
+void Block::Draw(int xabs, int yabs, Color color, ZOrder z)
 {
-	int x = _x + xabs;
-	int y = _y + yabs;
+	int x = xabs;
+	int y = yabs;
 
 	switch (color) {
 		case cBlue:
@@ -48,9 +48,4 @@ void Block::DrawAbs(int xabs, int yabs, Color color, ZOrder z)
 			_YellowImage->draw(x, y, z);
 			break;
 	}
-}
-
-void Block::DrawRel(int xrel, int yrel, Color color, ZOrder z)
-{
-	DrawAbs(xrel * _w, yrel * _h, color, z);
 }

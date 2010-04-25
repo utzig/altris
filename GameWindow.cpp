@@ -14,7 +14,7 @@
 GameWindow::GameWindow()
 	: Window(510, 510, false), 
 		_font(graphics(), Gosu::defaultFontName(), 20),
-		_block(graphics(), 30, 30, 30, 30),
+		_block(graphics(), 30, 30),
 		_board(_block, 10, 15)
 {
 	setCaption(L"AlTris");
@@ -25,16 +25,26 @@ GameWindow::GameWindow()
 	_backgroundImage.reset(new Gosu::Image(graphics(), filename, false));
 
 	_tetramino = new Tetramino(_block,
+		30,
+		30,
 		0,
 		0,
 		static_cast<Shape>(Gosu::random(sI, sZ+1)),
 		static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
 
 	_nextTetramino = new Tetramino(_block,
+		360,
+		30,
 		0,
 		0,
 		static_cast<Shape>(Gosu::random(sI, sZ+1)),
 		static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
+
+	int w = _nextTetramino->GetWidth();
+	int h = _nextTetramino->GetHeight();
+
+	// center next piece on preview pane
+	_nextTetramino->SetOffsetXY(420 - w*30/2, 75 - h*30/2);
 }
 
 void GameWindow::update()
@@ -66,18 +76,32 @@ void GameWindow::update()
 		isUp = false;
 	}
 
+	if (input().down(Gosu::kbDown)) {
+		_tetramino->DownPressed();
+	}
+
 	if (_tetramino->CheckForDownCollision(_board)) {
 		_board.CopyFromTetramino(_tetramino);
 		_board.RemoveCompleteLines();
 
 		delete _tetramino;
 		_tetramino = _nextTetramino;
+		_tetramino->SetOffsetXY(30, 30);
 
 		_nextTetramino = new Tetramino(_block,
+			360,
+			30,
 			0,
 			0,
 			static_cast<Shape>(Gosu::random(sI, sZ+1)),
 			static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
+
+			int w = _nextTetramino->GetWidth();
+			int h = _nextTetramino->GetHeight();
+
+			// center next piece on preview pane
+			_nextTetramino->SetOffsetXY(420 - w*30/2, 75 - h*30/2);
+
 	} else {
 		_tetramino->MoveDown();
 	}
@@ -86,6 +110,7 @@ void GameWindow::update()
 void GameWindow::draw()
 {
 	_tetramino->Draw();
+	_nextTetramino->Draw();
 	_board.Draw();
 	_backgroundImage->draw(0, 0, zBackground);
 }
