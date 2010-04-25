@@ -93,23 +93,16 @@ void Tetramino::Draw()
 
 void Tetramino::MoveLeft()
 {
-	int w = _block.GetWidth();
-
-	if (_absx > 0) _absx -= w;
+	_absx -= _block.GetWidth();
 }
 
 void Tetramino::MoveRight()
 {
-	int w = _block.GetWidth();
-
-	if ((_absx + (_w*w)) < (w * 10)) _absx += w;
+	_absx += _block.GetWidth();
 }
 
 void Tetramino::MoveDown()
 {
-	//int h = _block.GetHeight();
-
-	//if ((_absy + (_h*h))  < (h * 15))
 	++_absy;
 }
 
@@ -212,7 +205,59 @@ void Tetramino::Rotate()
 	_h = h;
 }
 
-bool Tetramino::CheckCollisionWithBoard(Board& board)
+bool Tetramino::CheckForLeftCollision(Board& board)
+{
+	int posx = 0, posy = 0;
+	int x, y;
+
+	// initial cell position of the tetramino
+	posx = _absx / 30;
+	posy = _absy / 30;
+
+	for (y = posy; y < (posy + _h); ++y) {
+		for (x = posx; x < (posx + _w); ++x) {
+			if (_data[x - posx][y - posy] == cInvisible) continue;
+			else {
+				if ((x == 0) ||
+					(board.GetCellColor(x-1, y) != cInvisible) ||
+					(board.GetCellColor(x-1, y+1) != cInvisible))
+					return true;
+				else
+					break;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Tetramino::CheckForRightCollision(Board& board)
+{
+	int posx = 0, posy = 0;
+	int x, y;
+
+	// initial cell position of the tetramino
+	posx = _absx / 30;
+	posy = _absy / 30;
+
+	for (y = posy; y < (posy + _h); ++y) {
+		for (x = (posx + _w - 1); x >= posx; --x) {
+			if (_data[x - posx][y - posy] == cInvisible) continue;
+			else {
+				if ((x == 9) ||
+					(board.GetCellColor(x+1, y) != cInvisible) ||
+					(board.GetCellColor(x+1, y+1) != cInvisible))
+					return true;
+				else
+					break;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Tetramino::CheckForDownCollision(Board& board)
 {
 	int posx = 0, posy = 0;
 	int x, y;
@@ -225,10 +270,10 @@ bool Tetramino::CheckCollisionWithBoard(Board& board)
 	posy = _absy / 30;
 
 	for (x = posx; x < (posx + _w); ++x) {
-		for (y = (posy + _h); y >= posy; --y) {
+		for (y = (posy + _h - 1); y >= posy; --y) {
 			if (_data[x - posx][y - posy] == cInvisible) continue;
 			else {
-				if ((y == 15) || (board.GetCellColor(x, y+1) != cInvisible))
+				if ((y == 14) || (board.GetCellColor(x, y+1) != cInvisible))
 					return true;
 				else
 					break;

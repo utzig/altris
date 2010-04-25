@@ -42,17 +42,18 @@ void GameWindow::update()
 	static bool isLeft = false;
 	static bool isRight = false;
 	static bool isUp = false;
-	static bool hasCollided = false;
 
 	if (input().down(Gosu::kbLeft)) {
-		if (!isLeft) _tetramino->MoveLeft();
+		if (!isLeft && !_tetramino->CheckForLeftCollision(_board))
+			_tetramino->MoveLeft();
 		isLeft = true;
 	} else {
 		isLeft = false;
 	}
 
 	if (input().down(Gosu::kbRight)) {
-		if (!isRight) _tetramino->MoveRight();
+		if (!isRight && !_tetramino->CheckForRightCollision(_board))
+			_tetramino->MoveRight();
 		isRight = true;
 	} else {
 		isRight = false;
@@ -65,10 +66,7 @@ void GameWindow::update()
 		isUp = false;
 	}
 
-	if (_tetramino->CheckCollisionWithBoard(_board)) {
-		hasCollided = true;
-		printf("true\n");
-
+	if (_tetramino->CheckForDownCollision(_board)) {
 		_board.CopyFromTetramino(_tetramino);
 		_board.RemoveCompleteLines();
 

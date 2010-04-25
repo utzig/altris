@@ -25,7 +25,9 @@ public:
 	int GetHeight() const { return _h; }
 	int GetXPos() const { return _absx / 30; }
 	int GetYPos() const { return _absy / 30; }
-	bool CheckCollisionWithBoard(Board& board);
+	bool CheckForLeftCollision(Board& board);
+	bool CheckForRightCollision(Board& board);
+	bool CheckForDownCollision(Board& board);
 	Color GetCellColor(int posx, int posy) const;
 };
 
