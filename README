@@ -3,3 +3,5 @@ This is a very simple reimplementation of the classic Tetris game.
 The idea stems from an article written by Geoff Howland entitled "How do I make games?".
 
 It can be found here: http://www.gamedev.net/reference/design/features/makegames/
+
+This game is being developed in C++ (stl/boost) using the Gosu game library (http://www.libgosu.org).
