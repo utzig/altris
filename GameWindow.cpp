@@ -65,13 +65,12 @@ void GameWindow::update()
 		isUp = false;
 	}
 
-	_tetramino->MoveDown();
-
 	if (_tetramino->CheckCollisionWithBoard(_board)) {
 		hasCollided = true;
 		printf("true\n");
 
 		_board.CopyFromTetramino(_tetramino);
+		_board.RemoveCompleteLines();
 
 		delete _tetramino;
 		_tetramino = _nextTetramino;
@@ -81,6 +80,8 @@ void GameWindow::update()
 			0,
 			static_cast<Shape>(Gosu::random(sI, sZ+1)),
 			static_cast<Color>(Gosu::random(cBlue, cYellow+1)));
+	} else {
+		_tetramino->MoveDown();
 	}
 }
 

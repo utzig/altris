@@ -32,6 +32,7 @@ public:
 	void Draw();
 	Color GetCellColor(int posx, int posy) const;
 	void CopyFromTetramino(Tetramino* tetramino);
+	void RemoveCompleteLines();
 	int GetWidth() const { return BOARD_WIDTH; }
 	int GetHeight() const { return BOARD_HEIGHT; }
 };

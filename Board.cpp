@@ -80,3 +80,35 @@ void Board::CopyFromTetramino(Tetramino* tetramino)
 		++it;
 	}
 }
+
+void Board::RemoveCompleteLines()
+{
+	std::list<line>::iterator it;
+	int i;
+	int n = 0;
+	bool isComplete = false;
+
+	for (it = _lines.begin(); it != _lines.end(); ) {
+		for (i = 0, isComplete = true; i < (*it).size(); ++i) {
+			if ((*it)[i] == cInvisible) {
+				isComplete = false;
+			}
+		}
+
+		if (isComplete) {
+			it = _lines.erase(it);
+			++n;
+		} else {
+			++it;
+		}
+	}
+
+	line l;
+	line::iterator lit;
+
+	for (lit = l.begin(); lit != l.end(); ++lit)
+		*lit = cInvisible;
+
+	for (i = 0; i < n; i++)
+		_lines.push_front(l);
+}

@@ -107,9 +107,10 @@ void Tetramino::MoveRight()
 
 void Tetramino::MoveDown()
 {
-	int h = _block.GetHeight();
+	//int h = _block.GetHeight();
 
-	if ((_absy + (_h*h))  < (h * 15)) ++_absy;
+	//if ((_absy + (_h*h))  < (h * 15))
+	++_absy;
 }
 
 void Tetramino::Rotate()
